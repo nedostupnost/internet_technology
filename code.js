@@ -1,4 +1,4 @@
-class currency
+class Currency
 {
     constructor(currency)
     {
@@ -6,9 +6,9 @@ class currency
         this.arrCurrencyExchangeRate = [];
     }
 
-    addCurrencyExchangeRate(date, currency)
+    addCurrencyExchangeRate(date, rateOfCurrency)
     {
-        this.arrCurrencyExchangeRate.push({date, currency});
+        this.arrCurrencyExchangeRate.push({ date, rateOfCurrency });
     }
 
     getCurrencyExchangeRate()
@@ -17,7 +17,7 @@ class currency
     }
 }
 
-class typeOfExpenses 
+class TypeOfExpenses
 {
     constructor(typeOfExpenses)
     {
@@ -25,7 +25,7 @@ class typeOfExpenses
     }
 }
 
-class typeOfRevenue
+class TypeOfRevenue
 {
     constructor(typeOfRevenue)
     {
@@ -33,29 +33,29 @@ class typeOfRevenue
     }
 }
 
-class expenses
+class Expenses
 {
-    constructor(typeOfCurrency, typeOfExpenses, date, value)
+    constructor(value, typeOfExpenses, date, currency)
     {
-        this.typeOfCurrency = typeOfCurrency;
+        this.value = value;
         this.typeOfExpenses = typeOfExpenses;
         this.date = date;
-        this.value = value;
+        this.currency = currency;
     }
 }
 
-class revenue
+class Revenue
 {
-    constructor(typeOfCurrency, typeOfRevenue, date, value)
+    constructor(value, typeOfRevenue, date, currency)
     {
-        this.typeOfCurrency = typeOfCurrency;
+        this.value = value;
         this.typeOfRevenue = typeOfRevenue;
         this.date = date;
-        this.value = value;
+        this.currency = currency;
     }
 }
 
-class budget
+class Budget
 {
     constructor()
     {
@@ -63,12 +63,12 @@ class budget
         this.arrTypeOfExpenses = [];
         this.arrTypeOfRevenue = [];
         this.arrRevenue = [];
-        this.arrExpense = [];
+        this.arrExpenses = [];
     }
 
-    addCurrency(cur)
+    addCurrency(currency)
     {
-        this.arrCurrency.push(new currency(cur));
+        this.arrCurrency.push(new Currency(currency));
     }
 
     getCurrency()
@@ -78,21 +78,21 @@ class budget
 
     removeCurrency(currency)
     {
-        this.arrCurrency = this.arrCurrency.filter(tmp => tmp !== currency);
+        this.arrCurrency = this.arrCurrency.filter(tmp => tmp.currency !== currency);
     }
 
     updateCurrency(currency, newCurrency)
     {
-        temp = this.arrCurrency.find(tmp => tmp.currency === currency);
+        const temp = this.arrCurrency.find(tmp => tmp.currency === currency);
         if (temp)
         {
-            tmp.currency = newCurrency;
+            temp.currency = newCurrency;
         }
     }
 
-    addTypeOfExpenses(typeOfExp)
+    addTypeOfExpenses(typeOfExpenses)
     {
-        this.arrTypeOfExpenses.push(new typeOfExpenses(typeOfExp));
+        this.arrTypeOfExpenses.push(new TypeOfExpenses(typeOfExpenses));
     }
 
     getTypeOfExpenses()
@@ -102,21 +102,21 @@ class budget
 
     removeTypeOfExpenses(typeOfExpenses)
     {
-        this.arrTypeOfExpenses= this.arrTypeOfexpenses.filter(tmp => tmp.typeOfExpenses !== typeOfExpenses);
+        this.arrTypeOfExpenses = this.arrTypeOfExpenses.filter(tmp => tmp.typeOfExpenses !== typeOfExpenses);
     }
 
-    updateTypeOfExpenses(typeOfExpense, newTypeofExpense)
+    updateTypeOfExpenses(typeOfExpense, newTypeOfExpense)
     {
-        temp = this.arrTypeOfExpenses.find(tmp => tmp.typeOfExpense === typeOfExpense);
+        const temp = this.arrTypeOfExpenses.find(tmp => tmp.typeOfExpenses === typeOfExpense);
         if (temp)
         {
-            temp.typeOfExpense = newTypeofExpense;
+            temp.typeOfExpenses = newTypeOfExpense;
         }
     }
 
     addTypeOfRevenue(typeOfRevenue)
     {
-        this.arrTypeOfRevenue.push(new typeOfRevenue(typeOfRevenue));
+        this.arrTypeOfRevenue.push(new TypeOfRevenue(typeOfRevenue));
     }
 
     getTypeOfRevenue()
@@ -126,21 +126,21 @@ class budget
 
     removeTypeOfRevenue(typeOfRevenue)
     {
-        this.arrTypeOfRevenue = this.arrTypeOfRevenue.filter(tmp => tmp !== typeOfRevenue)
+        this.arrTypeOfRevenue = this.arrTypeOfRevenue.filter(tmp => tmp.typeOfRevenue !== typeOfRevenue);
     }
 
-    updateTypeOfRevenue(typeOfRevenue, newTypeOfRevenue)
+    updateTypeOfRevenue(typeOfRevenue, newTypeRevenue)
     {
-        temp = this.arrTypeOfRevenue.find(tmp => tmp.typeOfRevenue === typeOfRevenue);
-        if(temp)
+        const temp = this.arrTypeOfRevenue.find(tmp => tmp.typeOfRevenue === typeOfRevenue);
+        if (temp)
         {
-            temp.typeOfRevenue = newTypeOfRevenue;
+            temp.typeOfRevenue = newTypeRevenue;
         }
     }
 
     addRevenue(value, typeOfRevenue, date, currency)
     {
-        tmp = new tmp(value, typeOfRevenue, date, currency);
+        const tmp = new Revenue(value, typeOfRevenue, date, currency);
         this.arrRevenue.push(tmp);
     }
 
@@ -151,7 +151,7 @@ class budget
 
     updateRevenue(oldValue, newValue, newTypeOfRevenue, newDate, newCurrency)
     {
-        tmp = this.arrRevenue.find(tp => tp.value === oldValue);
+        const tmp = this.arrRevenue.find(tp => tp.value === oldValue);
         if (tmp)
         {
             tmp.value = newValue;
@@ -163,64 +163,66 @@ class budget
 
     removeRevenue(value)
     {
-        this.arrRevenue.splice(value, 1);
+        this.arrRevenue = this.arrRevenue.filter(tmp => tmp.value !== value);
     }
 
     addExpenses(value, typeOfExpenses, date, currency)
     {
-        tmp = new expenses(value, typeOfExpenses, date, currency);
-        this.arrExpense.push(tmp);
+        const tmp = new Expenses(value, typeOfExpenses, date, currency);
+        this.arrExpenses.push(tmp);
     }
 
     getExpenses()
     {
-        return this.arrExpense;
+        return this.arrExpenses;
     }
 
     updateExpenses(oldValue, newValue, newTypeOfExpenses, newDate, newCurrency)
     {
-        tmp = this.arrExpense.find(tp => tp.value === oldValue);
+        const tmp = this.arrExpenses.find(tp => tp.value === oldValue);
         if (tmp)
-            {
-                tmp.value = newValue;
-                tmp.typeOfExpenses = newTypeOfExpenses;
-                tmp.date = newDate;
-                tmp.currency = newCurrency;
-            }
+        {
+            tmp.value = newValue;
+            tmp.typeOfExpenses = newTypeOfExpenses;
+            tmp.date = newDate;
+            tmp.currency = newCurrency;
+        }
     }
 
     removeExpenses(value)
     {
-        this.arrExpense.splice(value, 1);
+        this.arrExpenses = this.arrExpenses.filter(tmp => tmp.value !== value);
     }
 
     getBalance(start, end)
     {
-        totalRevenue = this.arrRevenue.filter(tp => new Date(tp.date) >= new Date(start) && new Date(tp.date) <= new Date(end)).reduce((sum, tp) => sum + tp.value, 0);
-        totalExpenses = this.arrExpense.filter(tp => new Date(tp.date) >= new Date(start) && new Date(tp.date) <= new Date(end)).reduce((sum, tp) => sum + tp.value, 0);
-
+        const totalRevenue = this.arrRevenue.filter(tp => new Date(tp.date) >= new Date(start) && new Date(tp.date) <= new Date(end)).reduce((sum, tp) => sum + tp.value, 0);
+        const totalExpenses = this.arrExpenses.filter(tp => new Date(tp.date) >= new Date(start) && new Date(tp.date) <= new Date(end)).reduce((sum, tp) => sum + tp.value, 0);
         return totalRevenue - totalExpenses;
     }
 
-    filterExpensesAndReveneu(type, start, end, isRevenue = true)
+    filterExpensesAndRevenue(type, start, end, isRevenue = true)
     {
-        transactions = isRevenue ? this.arrRevenue : this.arrExpense;
-        return transactions.filter(tp => tp.type === type && new Date(tp.date) >= new Date(start) && new Date(tp.date) <= new Date(end));
+        const transactions = isRevenue ? this.arrRevenue : this.arrExpenses;
+        return transactions.filter(tp => (isRevenue ? tp.typeOfRevenue : tp.typeOfExpenses) === type && new Date(tp.date) >= new Date(start) && new Date(tp.date) <= new Date(end));
     }
 }
 
-budget = new budget();
+const budget = new Budget();
 
 budget.addCurrency('ЮАНИ');
-
 budget.addTypeOfExpenses('Рис');
-
 budget.addTypeOfRevenue('Онли');
 
 budget.addRevenue(1488, 'Онли', '2024-10-01', 'ЮАНИ');
-
 budget.addExpenses(244, 'Рис', '2024-10-02', 'ЮАНИ');
 
 console.log('Баланс за октябрь:', budget.getBalance('2024-10-01', '2024-10-31'));
+console.log('Фильтр расходов за октябрь:', budget.filterExpensesAndRevenue('Рис', '2024-10-01', '2024-10-31', false));
 
-console.log('Фильтр расходов за октябрь:', budget.filterTransactions('Food', '2024-10-01', '2024-10-31', false));
+budget.addRevenue(240, 'Онли', '2024-10-02', 'ЮАНИ');
+
+console.log('Фильтр расходов за октябрь:', budget.filterExpensesAndRevenue('Рис', '2024-10-01', '2024-10-31', false));
+
+budget.removeExpenses(244);
+console.log('Баланс за октябрь:', budget.getBalance('2024-10-01', '2024-10-31'));
